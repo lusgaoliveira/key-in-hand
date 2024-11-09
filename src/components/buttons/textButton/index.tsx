@@ -3,13 +3,15 @@ import { styles } from "./styles";
 
 
 type TextButtonProps = ButtonProps & {
-    disabled?: boolean; 
     color?: string; 
     style?: object;
 } 
-export default function TextButton({disabled, color, style, ...rest} : TextButtonProps) {
+export default function TextButton({color, style, ...rest} : TextButtonProps) {
     return (
-        <TouchableOpacity style={[styles.button, style && style]}>
+        <TouchableOpacity 
+            style={[styles.button, style && style]}
+            {...rest}
+        >
             <Text style={styles.buttonText}>{rest.title}</Text>
         </TouchableOpacity>
     );
