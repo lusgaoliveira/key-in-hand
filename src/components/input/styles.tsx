@@ -1,7 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window"); 
 
-
 export const styles = StyleSheet.create({
   inputContainer: {
     borderColor: "black",
@@ -13,8 +12,10 @@ export const styles = StyleSheet.create({
     margin: '3%'
   },
   input: {
-    margin: 5,
+    margin: '3%',
     textAlign: "left",
-    fontSize: 32
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: 'black'
   },
 });
