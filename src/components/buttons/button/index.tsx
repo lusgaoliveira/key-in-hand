@@ -6,17 +6,18 @@ type StyleKeys = 'moveForward' | 'stepBack';
 type ButtonProps = TouchableOpacityProps & {
     title: string;        
     className: StyleKeys; 
+    style?: object
 };
 
-export default function Button({ title, className, ...rest }: ButtonProps) {
+export default function Button({ title, className, style, ...rest }: ButtonProps) {
     
 
     return (
         <View style={styles.container}>
             
-            <TouchableOpacity style={[styles[className], styles.button]} {...rest}>
-        
-                <Text style={styles.text}>{title}</Text>
+            <TouchableOpacity style={[styles[className], styles.button, style && style]} {...rest}>
+
+                <Text style={global.text}>{title}</Text>
             </TouchableOpacity>
         </View>
     );
