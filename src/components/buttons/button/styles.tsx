@@ -14,9 +14,8 @@ const styles = StyleSheet.create({
     },
 
     button: {
-        width: '50%',
+       
         padding: '4%',
-        margin: '1%',
         alignSelf: 'center',
         borderRadius: 5,          
         alignItems: 'center',      
@@ -30,12 +29,15 @@ const styles = StyleSheet.create({
 
     
     moveForward: {
+        width: '60%',
         backgroundColor: theme.light.moveForward,
     },
 
    
     stepBack: {
+        width: '40%',
         backgroundColor: theme.light.stepBack, 
+
     },
 });
 
