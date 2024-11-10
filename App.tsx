@@ -3,6 +3,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import LoginScreen from './src/screens/login';
 import { useEffect } from 'react';
+import AppNavigation from './src/navigation/AppNavigation';
 
 
 export default function App() {
@@ -23,6 +24,6 @@ export default function App() {
 
   // Renderiza a navegação principal do aplicativo após o carregamento das fontes
   return (
-    <LoginScreen />
+    <AppNavigation />
   );
 }
