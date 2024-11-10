@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start', 
-        flexDirection: 'column',
+        
     },
     imgContainer: {  
         alignContent: 'flex-start',
@@ -56,7 +56,6 @@ export const styles = StyleSheet.create({
     button: {
         marginTop: '15%', 
         marginBottom: 0,
-        color: 'red'
     },
     textButton: {
         padding: 0,

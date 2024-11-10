@@ -1,20 +1,35 @@
-import { Image, KeyboardAvoidingView, Platform, Text, TextInput, View } from "react-native";
+import { 
+    Image, 
+    KeyboardAvoidingView, 
+    Platform, 
+    Text, 
+    TextInput, 
+    View } 
+from "react-native";
 import Input from "../../components/input";
 import { styles } from "./styles";
 import TextButton from "../../components/buttons/textButton";
 import Button from "../../components/buttons/button";
 import { useState, useRef } from "react";
 import Checkbox from 'expo-checkbox';
-import { global } from '../../styles/global';
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RoutesParams } from "../../navigation/routeParams";
+import { useNavigation } from "@react-navigation/native";
 
+
+type loginParamsList = NativeStackNavigationProp<RoutesParams, "Login">;
 
 export default function LoginScreen() {
     const [isChecked, setChecked] = useState(false);
     const passwordRef = useRef<TextInput>(null);
+
+    const navigation = useNavigation<loginParamsList>();
+
     return (
         <KeyboardAvoidingView
             style={styles.keyboardAvoidingView}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
+            
         >
             <View style={styles.container}>
 
@@ -57,6 +72,9 @@ export default function LoginScreen() {
                     <TextButton
                         title="Forgot password"
                         style={styles.textButton}
+                        onPress={() => {
+                            navigation.navigate("ResetPassword");
+                        }}
                     />
                 </View>
                 
@@ -67,6 +85,9 @@ export default function LoginScreen() {
                     <TextButton
                         title="Register"
                         style={[styles.textButton, styles.cont]}
+                        onPress={() => {
+                            navigation.navigate("Register");
+                        }}
                     />
                 </View>
                 
