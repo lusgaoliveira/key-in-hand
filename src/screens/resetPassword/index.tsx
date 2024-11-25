@@ -8,7 +8,7 @@ import {
     TextInput, 
     View } 
 from "react-native";
-import Input from "../../components/input";
+import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
