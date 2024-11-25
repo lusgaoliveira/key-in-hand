@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        color: theme.light.text, 
+        color: 'white', 
         fontSize: global.title.fontSize
     },
 

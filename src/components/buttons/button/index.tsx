@@ -16,8 +16,7 @@ export default function Button({ title, className, style, ...rest }: ButtonProps
         <View style={styles.container}>
             
             <TouchableOpacity style={[styles[className], styles.button, style && style]} {...rest}>
-
-                <Text style={global.text}>{title}</Text>
+                <Text style={styles.text}>{title}</Text>
             </TouchableOpacity>
         </View>
     );
