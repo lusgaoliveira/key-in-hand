@@ -54,6 +54,7 @@ export const styles = StyleSheet.create({
         padding: '5%'
     },
     button: {
+        color: 'white',
         marginTop: '15%', 
         marginBottom: 0,
     },

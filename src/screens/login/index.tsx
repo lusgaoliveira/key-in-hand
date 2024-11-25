@@ -6,7 +6,7 @@ import {
     TextInput, 
     View } 
 from "react-native";
-import Input from "../../components/input";
+import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import TextButton from "../../components/buttons/textButton";
 import Button from "../../components/buttons/button";
@@ -67,6 +67,9 @@ export default function LoginScreen() {
                         title="Login"
                         className="moveForward"
                         style={styles.button}
+                        onPress={() => {
+                            navigation.navigate("Home");
+                        }}
                     />
 
                     <TextButton
