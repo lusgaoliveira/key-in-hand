@@ -8,6 +8,7 @@ import ResetPasswordScreen from "../screens/resetPassword";
 import RegisterScreen from "../screens/register";
 import HomeScreen from "../screens/home";
 import EditKey from "../screens/editKey";
+import NewKeyScreen from "../screens/newKey";
 
 
 const Stack = createNativeStackNavigator<RoutesParams>();
@@ -21,6 +22,7 @@ export default function AppNavigation() {
                 <Stack.Screen name = "Register" component={RegisterScreen}/>
                 <Stack.Screen name = "Home" component={HomeScreen}/>
                 <Stack.Screen name = "EditKey" component={EditKey}/>
+                <Stack.Screen name = "NewKey" component={NewKeyScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

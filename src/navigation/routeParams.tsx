@@ -10,5 +10,6 @@ export type RoutesParams = {
         id: string;
         username: string;
         password: string;
-    }
+    };
+    NewKey: undefined;
 };
