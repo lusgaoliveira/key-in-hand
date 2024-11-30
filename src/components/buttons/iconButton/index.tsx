@@ -13,7 +13,7 @@ export default function IconButton({ icon, style, ...rest} : ButtonProps) {
     return (
         <View style={[styles.container, style]}>
             <Pressable style={styles.button} {...rest}>
-                <FontAwesome name={icon} size={26}/>
+                <FontAwesome name={icon} size={28}/>
             </Pressable>
         </View>
     )
