@@ -5,21 +5,24 @@ const { width, height } = Dimensions.get("window");
 
 export const styles = StyleSheet.create({
     keyboardAvoidingView: {
-        flex: 1,
-        backgroundColor: theme.light.background,
+        flex: 1,  
+        height: '100%',
+        backgroundColor: theme.light.background,  
     },
     container: {
-        flex: 1,
         alignItems: 'center',
+        backgroundColor: theme.light.background,
         justifyContent: 'flex-start', 
+        width: '100%',
+        
         
     },
     imgContainer: {  
         alignContent: 'flex-start',
         width: '100%',
         alignItems: 'center',
-        paddingTop: '15%',
-        paddingBottom: '25%'
+        marginTop: '15%',
+        marginBottom: '18%'
     },
     inputsContainer: {
         width: '100%',       
@@ -39,21 +42,26 @@ export const styles = StyleSheet.create({
     checkbox: {
         alignSelf: 'center',
         borderRadius: 50,
-        marginLeft: "-5%"  
+        marginLeft: "-6%"  
     },
     keepText: {
         fontWeight: 'bold',
         textAlign: 'center',
         alignSelf: 'center',
-        fontSize: 20,
+        fontSize: 18,
         marginRight: '15%'
     },
     
     accountExistsContainter: {
+
+        alignItems: 'center',
         width: '100%',
-        padding: '5%'
+        justifyContent: 'flex-end',
+        paddingTop: '5%',  
+        
     },
     button: {
+        
         color: 'white',
         marginTop: '15%', 
         marginBottom: 0,
@@ -64,19 +72,21 @@ export const styles = StyleSheet.create({
         
     },
     accountCreateContainer: {
-        flex: 1,
+    
         alignItems: 'center',
         width: '100%',
         justifyContent: 'flex-end',
+        
     },
     
     textAccountCreate: {
-        fontSize: 20,
-        
+        fontSize: 18,
     },
 
     cont: {
-        paddingBottom: '4%'
+        
+        paddingBottom: '5%',
+    
     }
     
 });

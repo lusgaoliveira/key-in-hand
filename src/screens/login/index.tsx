@@ -29,6 +29,7 @@ export default function LoginScreen() {
         <KeyboardAvoidingView
             style={styles.keyboardAvoidingView}
             behavior={Platform.OS === "ios" ? "padding" : "height"}
+            keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 10} 
             
         >
             <View style={styles.container}>
