@@ -29,10 +29,9 @@ export const styles = StyleSheet.create({
         paddingBottom: '5%',
     },
     inputsContainer: {
-        width: '100%',       
-        alignItems: 'center', 
-        justifyContent: "flex-end",
-
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'flex-start', 
     },
     optionalsContainer: {
         width: '94%',

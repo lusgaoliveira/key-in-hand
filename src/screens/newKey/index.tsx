@@ -69,7 +69,7 @@ export default function NewKeyScreen() {
             <KeyboardAvoidingView
                 style={styles.keyboardAvoidingView}
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
-                keyboardVerticalOffset={Platform.OS === "ios" ? 0 : -200}
+                keyboardVerticalOffset={Platform.OS === "ios" ? 10 : 2} 
             >
                 <ScrollView 
                     contentContainerStyle={styles.scrollContent} 
