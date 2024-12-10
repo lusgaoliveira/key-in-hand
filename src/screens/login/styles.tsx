@@ -1,7 +1,5 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 import { theme } from "../../../theme";
-const { width, height } = Dimensions.get("window"); 
-
 
 export const styles = StyleSheet.create({
     keyboardAvoidingView: {
@@ -10,12 +8,11 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.light.background,  
     },
     container: {
+        flex: 1,
         alignItems: 'center',
         backgroundColor: theme.light.background,
         justifyContent: 'flex-start', 
-        width: '100%',
-        
-        
+        width: '100%',  
     },
     imgContainer: {  
         alignContent: 'flex-start',
@@ -51,42 +48,33 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         marginRight: '15%'
     },
-    
     accountExistsContainter: {
-
         alignItems: 'center',
         width: '100%',
         justifyContent: 'flex-end',
-        paddingTop: '5%',  
-        
+        marginHorizontal: 10,  
+        paddingVertical: 10
     },
     button: {
-        
-        color: 'white',
-        marginTop: '15%', 
+        width: '60%',
+        paddingVertical: 10,
+        marginHorizontal: 10, 
+        marginVertical: '15%', 
         marginBottom: 0,
     },
     textButton: {
         padding: 0,
         margin: 0,
-        
     },
     accountCreateContainer: {
-    
         alignItems: 'center',
         width: '100%',
         justifyContent: 'flex-end',
-        
     },
-    
     textAccountCreate: {
         fontSize: 18,
     },
-
     cont: {
-        
         paddingBottom: '5%',
-    
     }
-    
 });

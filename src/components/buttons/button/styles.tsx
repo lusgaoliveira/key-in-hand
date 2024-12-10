@@ -5,17 +5,8 @@ import { global } from "../../../styles/global";
 
 import { theme } from "../../../../theme";
 
-// Define os estilos usando StyleSheet.create
 const styles = StyleSheet.create({
-    
-    container: {
-        width: '100%',
-        height: 'auto'
-    },
-
     button: {
-       
-        padding: '4%',
         alignSelf: 'center',
         borderRadius: 5,          
         alignItems: 'center',      

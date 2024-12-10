@@ -36,5 +36,7 @@ export const styles = StyleSheet.create({
     },
     button: {
         margin: '3%',
+        paddingVertical: 10,
+        marginHorizontal: 10, 
     },
 });

@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 import { theme } from "../../../theme";
 
+
+
 export const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
@@ -11,29 +13,39 @@ export const styles = StyleSheet.create({
     },
     scrollContent: {
         flexGrow: 1,
-        backgroundColor: theme.light.background, // cobre toda a área de rolagem
+        backgroundColor: theme.light.background, 
     },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        paddingTop: '50%',
-        paddingBottom: '10%',
+        paddingTop: '8%',
+        paddingBottom: '5%',
         backgroundColor: theme.light.background,
     },
-    
+    imgContainer: {
+        alignItems: 'center',
+        paddingTop: '15%',
+        paddingBottom: '5%',
+    },
     inputsContainer: {
         width: '100%',       
         alignItems: 'center', 
         justifyContent: "flex-end",
-        paddingTop: '15%'
+
     },
     optionalsContainer: {
-        width: '100%',
-        alignItems: 'center',
-        padding: '5%',
+        width: '94%',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly', 
+        marginVertical: 15,
     },
     button: {
-        margin: '3%',
+        width: '30%', 
+        paddingVertical: 10,
+        marginHorizontal: 10, 
+        alignItems: 'center',
+        borderRadius: 5,
+        
     },
 });
