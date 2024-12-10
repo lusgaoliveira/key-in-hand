@@ -6,16 +6,16 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../../navigation/routeParams";
 
-type data = {
-    title: string;
-    createdAt: string;
+type Data = {
     id: string;
+    title: string;
     username: string;
     password: string;
+    description: string
+    createdAt: string;
 }
-
 type CardProps = {
-    data: data;
+    data: Data;
 }
 export default function Card({ data }: CardProps) {
     const navigation = useNavigation<NativeStackNavigationProp<RoutesParams>>();
