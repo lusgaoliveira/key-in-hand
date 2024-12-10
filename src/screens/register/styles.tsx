@@ -4,14 +4,14 @@ import { theme } from "../../../theme";
 export const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: theme.light.background, // garante fundo no SafeAreaView
+        backgroundColor: theme.light.background, 
     },
     keyboardAvoidingView: {
         flex: 1,
     },
     scrollContent: {
         flexGrow: 1,
-        backgroundColor: theme.light.background, // cobre toda a área de rolagem
+        backgroundColor: theme.light.background, 
     },
     container: {
         flex: 1,
