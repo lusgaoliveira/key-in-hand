@@ -2,10 +2,18 @@ import { StyleSheet } from "react-native";
 import { theme } from "../../../theme";
 
 export const styles = StyleSheet.create({
+    safeArea: {
+        flex: 1,
+        backgroundColor: theme.light.background, // garante fundo no SafeAreaView
+    },
     keyboardAvoidingView: {
         flex: 1,  
         height: '100%',
         backgroundColor: theme.light.background,  
+    },
+    scrollContent: {
+        flexGrow: 1,
+        backgroundColor: theme.light.background, 
     },
     container: {
         flex: 1,
