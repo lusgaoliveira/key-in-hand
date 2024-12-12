@@ -9,17 +9,47 @@ const styles = StyleSheet.create({
         backgroundColor: theme.light.background,
     },
 
+    highContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        marginTop: '12%',
+        marginBottom: '20%',
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        position: 'relative', 
+    },
+    containerLogout: {
+        justifyContent: 'center',
+        width: '10%',
+        position: 'absolute', 
+        left: 0, 
+    },
+    logoutButton: {
+        alignSelf: 'center',
+    },
     containerSearch: {
-        flexDirection: "row",
+        flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         borderWidth: 1,
-        borderColor: "black",
+        borderColor: 'black',
         borderRadius: 5,
         width: '60%',
-        marginTop: '15%',
-        marginBottom: '20%'
+        alignSelf: 'center', 
     },
+    input: {
+        color: 'black',
+        marginLeft: '2%',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    iconButton: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: '2%',
+    },
+    
+    
     containerTitle: {
         paddingBottom: '8%',
         width: '75%'
@@ -27,17 +57,6 @@ const styles = StyleSheet.create({
     textTitle: {
         fontSize: 36,
         fontWeight: 'bold',
-    },
-    input: {
-        color: "black",
-        marginLeft: '2%',
-        fontSize: 24,
-        fontWeight: 'bold'
-    },
-    iconButton: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: '2%'
     },
 
     containerForm: {    

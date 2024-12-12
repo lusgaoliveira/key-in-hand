@@ -6,7 +6,7 @@ import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import Button from "../../components/buttons/button";
 import { useEffect, useRef, useState } from "react";
-import { saveKey } from "../../service/storage"; // Importe a função de salvamento
+import { KeyStorage } from "../../storages/KeyStorage";
 
 type newTaskParamsList = NativeStackNavigationProp<RoutesParams, 'NewKey'>;
 
@@ -17,13 +17,11 @@ export default function NewKeyScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState(""); 
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [description, setDescription] = useState("");
 
     const titleRef = useRef<TextInput>(null);
     const usernameRef = useRef<TextInput>(null);
     const passwordRef = useRef<TextInput>(null);
     const confirmPasswordRef = useRef<TextInput>(null);
-    const descriptionRef = useRef<TextInput>(null);
 
     useEffect(() => {
         if (titleRef.current) {
@@ -32,35 +30,35 @@ export default function NewKeyScreen() {
     }, []);
 
     const handleSave = async () => {
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
-        const uniqueKey = Math.random().toString(36);
+        if (title !== "" || username !== "" || password !== "" || confirmPassword !== "") {
+            if (password !== confirmPassword) {
+                alert("Passwords do not match!");
+                return;
+            }
+            const uniqueKey = Math.random().toString(36);
 
-        const newKey = {
-            id: uniqueKey,
-            title,
-            username,
-            password,
-            description,
-            createdAt: new Date().toISOString(),
-        };
+            const newKey = {
+                id: uniqueKey,
+                title,
+                username,
+                password,
+                createdAt: new Date().toISOString(),
+            };
 
-        try {
-            await saveKey(uniqueKey, newKey); 
-            alert("Key saved successfully!");
+            try {
+                await KeyStorage.saveKey(uniqueKey, newKey); 
+                alert("Key saved successfully!");
 
-            setTitle("");
-            setUsername("");
-            setPassword("");
-            setConfirmPassword("");
-            setDescription("");
+                setTitle("");
+                setUsername("");
+                setPassword("");
+                setConfirmPassword("");
 
-            navigate.navigate("Home");
-        } catch (error) {
-            console.error("Error saving key:", error);
-            alert("Failed to save the key. Please try again.");
+                navigate.navigate("Home");
+            } catch (error) {
+                console.error("Error saving key:", error);
+                alert("Failed to save the key. Please try again.");
+            }
         }
     };
 
@@ -112,16 +110,8 @@ export default function NewKeyScreen() {
                                 value={confirmPassword}
                                 onChangeText={setConfirmPassword}
                                 secureTextEntry
-                                returnKeyType="next"
-                                ref={confirmPasswordRef}
-                                onSubmitEditing={() => descriptionRef.current?.focus()}
-                            />
-                            <Input 
-                                placeholder="description" 
-                                value={description}
-                                onChangeText={setDescription}
                                 returnKeyType="done"
-                                ref={descriptionRef}
+                                ref={confirmPasswordRef}
                                 onSubmitEditing={() => navigate.navigate("Home")}
                             />
                         </View>

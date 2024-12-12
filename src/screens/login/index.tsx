@@ -1,4 +1,5 @@
 import { 
+    Alert,
     Image, 
     KeyboardAvoidingView, 
     Platform, 
@@ -12,20 +13,48 @@ import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import TextButton from "../../components/buttons/textButton";
 import Button from "../../components/buttons/button";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Checkbox from 'expo-checkbox';
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
 import { useNavigation } from "@react-navigation/native";
-import { theme } from "../../../theme";
+import { useAuth } from "../../contexts/AuthContext";
 
 type loginParamsList = NativeStackNavigationProp<RoutesParams, "Login">;
 
 export default function LoginScreen() {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
     const [isChecked, setChecked] = useState(false);
+
+    const usernameRef = useRef<TextInput>(null);
     const passwordRef = useRef<TextInput>(null);
 
+    const { login, isAuthenticated } = useAuth();
     const navigation = useNavigation<loginParamsList>();
+
+
+    const handleLogin = async () => {
+        try {
+            await login({ username, password, keepConnected: isChecked });
+            console.log('Login successful, checking authentication...');
+            if (isAuthenticated) {
+                navigation.navigate('Home');
+            } else {
+                console.log('User not authenticated.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            Alert.alert('Error when logging in');
+        }
+    };
+    
+
+    useEffect(() => {
+        if (usernameRef.current) {
+            usernameRef.current.focus();
+        }
+    }, []);
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -53,12 +82,17 @@ export default function LoginScreen() {
                         <View style={styles.inputsContainer}>
                             <Input
                                 placeholder='username'
+                                value={username}
+                                onChangeText={setUsername}
                                 returnKeyType="next"
+                                ref={usernameRef}
                                 onSubmitEditing={() => passwordRef.current?.focus()}
                             />
                             <Input
                                 placeholder='password'
                                 secureTextEntry
+                                value={password}
+                                onChangeText={setPassword}
                                 ref={passwordRef}
                                 returnKeyType="done"
                             />
@@ -76,9 +110,7 @@ export default function LoginScreen() {
                                 title="Login"
                                 className="moveForward"
                                 style={styles.button}
-                                onPress={() => {
-                                    navigation.navigate("Home");
-                                }}
+                                onPress={handleLogin}
                             />
 
                             <TextButton

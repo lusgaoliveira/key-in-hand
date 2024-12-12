@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
         width: '70%',
         flexWrap: 'wrap'
     },
+    password: {
+        color: theme.light.stepBack,
+        fontSize: 19
+    },
     date: {
         color: theme.light.placeholder,
     },

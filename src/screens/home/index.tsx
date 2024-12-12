@@ -6,7 +6,7 @@ import styles from "./styles";
 import IconButton from "../../components/buttons/iconButton";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import SimpleInput from "../../components/inputs/simpleInput";
-import { getKeys } from "../../service/storage";
+import { KeyStorage } from "../../storages/KeyStorage";
 import Card from "../../components/cards/card";
 
 type homeParamsList = NativeStackNavigationProp<RoutesParams, 'Home'>;
@@ -25,7 +25,7 @@ export default function HomeScreen() {
   const [keysList, setKeysList] = useState<Data[]>([]);
 
   const fetchData = async () => {
-    const data = await getKeys();
+    const data = await KeyStorage.getAllKeys();
 
     const formattedData = data
       ? Object.values(data).map((item: any) => ({
@@ -44,9 +44,17 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.containerSearch}>
-        <SimpleInput placeholder="Search" style={styles.input} />
-        <IconButton icon="search" style={styles.iconButton} />
+
+      <View style={styles.highContainer}>
+
+        <View style={styles.containerLogout}>
+          <IconButton icon="chevron-left" style={styles.logoutButton}/>
+        </View>
+        
+        <View style={styles.containerSearch}>
+          <SimpleInput placeholder="Search" style={styles.input} />
+          <IconButton icon="search" style={styles.iconButton}/>
+        </View>
       </View>
       
       <View style={styles.containerTitle}>
@@ -60,9 +68,8 @@ export default function HomeScreen() {
           <Card data={item} />
         )}
       />
-
       <View style={styles.containerButtons}>
-        <IconButton icon="plus-circle" onPress={() => navigation.navigate('NewKey')} />
+        <IconButton icon="plus-circle" iconSize = {30} onPress={() => navigation.navigate('NewKey')} />
       </View>
     </View>
   );

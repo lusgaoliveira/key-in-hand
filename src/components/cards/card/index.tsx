@@ -11,7 +11,6 @@ type Data = {
     title: string;
     username: string;
     password: string;
-    description: string
     createdAt: string;
 }
 type CardProps = {
@@ -20,15 +19,18 @@ type CardProps = {
 export default function Card({ data }: CardProps) {
     const navigation = useNavigation<NativeStackNavigationProp<RoutesParams>>();
 
+    const handleEditPress = () => navigation.navigate('EditKey', data);
     return (
         <View style={styles.container}>
             <View style={styles.dataContainer}>
+               
                 <Text style={global.title}>{data.title}</Text>
+                <Text style={[global.title, styles.password]}>{data.password}</Text>
                 <Text style={[global.text, styles.date]}>Created at {data.createdAt}</Text>
             </View>
             <View style={styles.separator}>
-                <Pressable onPress={() => navigation.navigate('EditKey', data)}>
-                <FontAwesome name="caret-right" size={26} color="black" />
+                <Pressable onPress={handleEditPress}>
+                    <FontAwesome name="caret-right" size={26} color="black" />
                 </Pressable>
             </View>
         </View>
