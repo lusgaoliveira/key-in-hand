@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Alert, FlatList, Text, View } from "react-native";
+import React, { useState } from "react";
+import { 
+  Alert, 
+  FlatList, 
+  Text, 
+  View } 
+from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
 import styles from "./styles";
@@ -10,7 +15,7 @@ import { KeyStorage } from "../../storages/KeyStorage";
 import Card from "../../components/cards/card";
 import { useAuth } from "../../contexts/AuthContext";
 
-type homeParamsList = NativeStackNavigationProp<RoutesParams, 'Home'>;
+type homeParamsList = NativeStackNavigationProp<RoutesParams, "Home">;
 
 type Data = {
   id: string;
@@ -26,14 +31,16 @@ export default function HomeScreen() {
   const [keysList, setKeysList] = useState<Data[]>([]);
   const { logout, isAuthenticated } = useAuth();
   const fetchData = async () => {
-    const data = await KeyStorage.getAllKeys();
+  const data = await KeyStorage.getAllKeys();
 
-    const formattedData = data
-      ? Object.values(data).map((item: any) => ({
-          ...item,
-          createdAt: item.createdAt ? new Date(item.createdAt).toISOString() : '',
-        }))
-      : [];
+  const formattedData = data
+    ? Object.values(data).map((item: any) => ({
+        ...item,
+        createdAt: item.createdAt
+          ? new Date(item.createdAt).toISOString()
+          : "",
+      }))
+    : [];
     setKeysList(formattedData);
   };
 
@@ -43,45 +50,51 @@ export default function HomeScreen() {
     }, [])
   );
 
-  const handleLogout = async () => { 
+  const handleLogout = async () => {
     try {
       await logout();
       if (!isAuthenticated) {
-        navigation.navigate('Login');
+        navigation.navigate("Login");
       }
-    } catch(error) {
-      console.error('Login error:', error);
-      Alert.alert('Error when logging in')
+    } catch (error) {
+      console.error("Login error:", error);
+      Alert.alert("Error when logging in");
     }
   };
+
+
   return (
     <View style={styles.container}>
-
       <View style={styles.highContainer}>
-
         <View style={styles.containerLogout}>
-          <IconButton icon="chevron-left" style={styles.logoutButton} onPress={handleLogout}/>
+          <IconButton
+            icon="chevron-left"
+            style={styles.logoutButton}
+            onPress={handleLogout}
+          />
         </View>
-        
+
         <View style={styles.containerSearch}>
           <SimpleInput placeholder="Search" style={styles.input} />
-          <IconButton icon="search" style={styles.iconButton}/>
+          <IconButton icon="search" style={styles.iconButton} />
         </View>
       </View>
-      
+
       <View style={styles.containerTitle}>
         <Text style={styles.textTitle}>My Keys</Text>
       </View>
-      
+
       <FlatList
         data={keysList}
-        keyExtractor={item => item.id.toString()}
-        renderItem={({ item }) => (
-          <Card data={item} />
-        )}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <Card data={item} />}
       />
       <View style={styles.containerButtons}>
-        <IconButton icon="plus-circle" iconSize = {30} onPress={() => navigation.navigate('NewKey')} />
+        <IconButton
+          icon="plus-circle"
+          iconSize={30}
+          onPress={() => navigation.navigate("NewKey")}
+        />
       </View>
     </View>
   );
