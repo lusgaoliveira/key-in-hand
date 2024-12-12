@@ -1,10 +1,5 @@
 import React, { useState } from "react";
-import { 
-  Alert, 
-  FlatList, 
-  Text, 
-  View } 
-from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
 import styles from "./styles";
@@ -30,17 +25,19 @@ export default function HomeScreen() {
   const navigation = useNavigation<homeParamsList>();
   const [keysList, setKeysList] = useState<Data[]>([]);
   const { logout, isAuthenticated } = useAuth();
-  const fetchData = async () => {
-  const data = await KeyStorage.getAllKeys();
+  const [searchText, setSearchText] = useState("");
 
-  const formattedData = data
-    ? Object.values(data).map((item: any) => ({
-        ...item,
-        createdAt: item.createdAt
-          ? new Date(item.createdAt).toISOString()
-          : "",
-      }))
-    : [];
+  const fetchData = async () => {
+    const data = await KeyStorage.getAllKeys();
+
+    const formattedData = data
+      ? Object.values(data).map((item: any) => ({
+          ...item,
+          createdAt: item.createdAt
+            ? new Date(item.createdAt).toISOString()
+            : "",
+        }))
+      : [];
     setKeysList(formattedData);
   };
 
@@ -62,6 +59,10 @@ export default function HomeScreen() {
     }
   };
 
+  // função para filtrar a chave pelo título
+  const filteredKeys = keysList.filter((key) =>
+    key.title.toLowerCase().includes(searchText.toLowerCase())
+  );
 
   return (
     <View style={styles.container}>
@@ -75,7 +76,12 @@ export default function HomeScreen() {
         </View>
 
         <View style={styles.containerSearch}>
-          <SimpleInput placeholder="Search" style={styles.input} />
+          <SimpleInput 
+            placeholder="Search" 
+            style={styles.input} 
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)}
+          />
           <IconButton icon="search" style={styles.iconButton} />
         </View>
       </View>
@@ -85,7 +91,7 @@ export default function HomeScreen() {
       </View>
 
       <FlatList
-        data={keysList}
+        data={filteredKeys}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <Card data={item} />}
       />
