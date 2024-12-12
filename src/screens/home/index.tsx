@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FlatList, Text, View } from "react-native";
+import { Alert, FlatList, Text, View } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
 import styles from "./styles";
@@ -8,6 +8,7 @@ import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import SimpleInput from "../../components/inputs/simpleInput";
 import { KeyStorage } from "../../storages/KeyStorage";
 import Card from "../../components/cards/card";
+import { useAuth } from "../../contexts/AuthContext";
 
 type homeParamsList = NativeStackNavigationProp<RoutesParams, 'Home'>;
 
@@ -23,7 +24,7 @@ type Data = {
 export default function HomeScreen() {
   const navigation = useNavigation<homeParamsList>();
   const [keysList, setKeysList] = useState<Data[]>([]);
-
+  const { logout, isAuthenticated } = useAuth();
   const fetchData = async () => {
     const data = await KeyStorage.getAllKeys();
 
@@ -42,13 +43,24 @@ export default function HomeScreen() {
     }, [])
   );
 
+  const handleLogout = async () => { 
+    try {
+      await logout();
+      if (!isAuthenticated) {
+        navigation.navigate('Login');
+      }
+    } catch(error) {
+      console.error('Login error:', error);
+      Alert.alert('Error when logging in')
+    }
+  };
   return (
     <View style={styles.container}>
 
       <View style={styles.highContainer}>
 
         <View style={styles.containerLogout}>
-          <IconButton icon="chevron-left" style={styles.logoutButton}/>
+          <IconButton icon="chevron-left" style={styles.logoutButton} onPress={handleLogout}/>
         </View>
         
         <View style={styles.containerSearch}>
