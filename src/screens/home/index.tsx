@@ -57,8 +57,8 @@ export default function HomeScreen() {
         navigation.navigate("Login");
       }
     } catch (error) {
-      console.error("Login error:", error);
-      Alert.alert("Error when logging in");
+      console.error("Logout error:", error);
+      Alert.alert("Error when logout");
     }
   };
 
