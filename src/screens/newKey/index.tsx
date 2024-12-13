@@ -6,7 +6,7 @@ import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import Button from "../../components/buttons/button";
 import { useEffect, useRef, useState } from "react";
-import { KeyStorage } from "../../storages/KeyStorage";
+import { KeyStorage } from "../../utils/storages/KeyStorage";
 
 type newTaskParamsList = NativeStackNavigationProp<RoutesParams, 'NewKey'>;
 

@@ -5,7 +5,7 @@ import {
     useState 
 } from "react";
 import { Alert } from 'react-native';
-import { UserStorage } from "../storages/UserStorage";
+import { UserStorage } from "../utils/storages/UserStorage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 

@@ -6,9 +6,9 @@ import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import Button from "../../components/buttons/button";
 import { useEffect, useRef, useState } from "react";
-import { KeyStorage } from "../../storages/KeyStorage";
+import { KeyStorage } from "../../utils/storages/KeyStorage";
 import { useAuth } from "../../contexts/AuthContext";
-import { UserStorage } from "../../storages/UserStorage";
+import { UserStorage } from "../../utils/storages/UserStorage";
 
 type editProfileParamsList = NativeStackNavigationProp<RoutesParams, 'EditProfile'>;
 
