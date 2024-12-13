@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: theme.light.background,
     },
-
     highContainer: {
         flexDirection: 'row',
         width: '100%',
@@ -22,7 +21,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: '10%',
         position: 'absolute', 
-        left: 0, 
+        left: 2, 
     },
     logoutButton: {
         alignSelf: 'center',
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 5,
-        width: '60%',
+        width: '70%',
         alignSelf: 'center', 
     },
     input: {
@@ -48,8 +47,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: '2%',
     },
-    
-    
+    containerEdit: {
+        justifyContent: 'center',
+        width: '10%',
+        position: 'absolute', 
+        right: 2, 
+    },
+    editButton: {
+        alignSelf: 'center',
+    },
     containerTitle: {
         paddingBottom: '8%',
         width: '75%'
@@ -58,18 +64,14 @@ const styles = StyleSheet.create({
         fontSize: 36,
         fontWeight: 'bold',
     },
-
     containerForm: {    
         justifyContent: 'center',                              
     },
-
-    containerButtons: {
-        
+    containerButtons: {  
         width: '100%',
         height: 50,
         justifyContent: 'center', 
-        alignItems: 'center',
-       
+        alignItems: 'center', 
     },
 });
 

@@ -60,8 +60,8 @@ export default function HomeScreen() {
   };
 
   // função para filtrar a chave pelo título
-  const filteredKeys = keysList.filter((key) =>
-    key.title.toLowerCase().includes(searchText.toLowerCase())
+  const filteredKeys = keysList.filter(
+    (key) => key.title?.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -83,6 +83,14 @@ export default function HomeScreen() {
             onChangeText={(text) => setSearchText(text)}
           />
           <IconButton icon="search" style={styles.iconButton} />
+        </View>
+
+        <View style={styles.containerEdit}>
+          <IconButton 
+            icon="user"
+            style={styles.editButton}
+            onPress={() => navigation.navigate('EditProfile')}
+          />
         </View>
       </View>
 

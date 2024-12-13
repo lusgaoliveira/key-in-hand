@@ -2,7 +2,7 @@ import { Pressable, PressableProps, StyleProp, Text, View, ViewStyle } from "rea
 import styles from "./styles";
 import { FontAwesome } from "@expo/vector-icons";
 
-type IconsKeys = 'edit' | 'plus-circle' | 'search' | 'trash' | 'copy' | 'chevron-left' ;
+type IconsKeys = 'edit' | 'plus-circle' | 'search' | 'trash' | 'copy' | 'chevron-left' | 'user' ;
 
 type ButtonProps = PressableProps & {
     icon: IconsKeys;

@@ -37,7 +37,6 @@ export default function LoginScreen() {
     const handleLogin = async () => {
         try {
             await login({ username, password, keepConnected: isChecked });
-            console.log('Login successful, checking authentication...');
             if (isAuthenticated) {
                 navigation.navigate('Home');
             } else {
