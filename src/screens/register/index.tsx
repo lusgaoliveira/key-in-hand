@@ -5,26 +5,24 @@ import {
     ScrollView, 
     TextInput, 
     View, 
+    Text,
     Alert 
 } from "react-native";
 import Input from "../../components/inputs/input";
 import { styles } from "./styles";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../contexts/AuthContext";
 import Button from "../../components/buttons/button";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Formik } from "formik";
+import RegisterSchema from "../../validators/register";
 
 type registerParamsList = NativeStackNavigationProp<RoutesParams, "Register">;
 
 export default function RegisterScreen() {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [fullName, setFullName] = useState("");
 
     const usernameRef = useRef<TextInput>(null);
     const emailRef = useRef<TextInput>(null);
@@ -33,7 +31,7 @@ export default function RegisterScreen() {
     const fullNameRef = useRef<TextInput>(null);
 
     const navigation = useNavigation<registerParamsList>();
-    const { register } = useAuth();
+    const { register, login } = useAuth();
 
     useEffect(() => {
         if (usernameRef.current) {
@@ -41,22 +39,19 @@ export default function RegisterScreen() {
         }
     }, []);
 
-    const handleRegister = async () => {
-        if (!username || !email || !password || !confirmPassword || !fullName) {
-            Alert.alert('All fields are mandatory');
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            Alert.alert('Passwords do not match');
-            return;
-        }
-
+    // Atualize handleRegister para receber diretamente os valores do Formik
+    const handleRegister = async (values: {username: string, email: string, password: string, fullName: string}) => {
         try {
-            await register({ username, password, email, fullName });
-            navigation.navigate('Login');
+            await register(values); // Registra o usuário
+            await login({
+                username: values.username,
+                password: values.password,
+                keepConnected: false,
+            });
+            console.log('username: ', values.username, 'password: ', values.password);
+            navigation.navigate('Home');
         } catch {
-            Alert.alert('Unable to register')
+            Alert.alert('Unable to register');
         }
     };
 
@@ -77,68 +72,97 @@ export default function RegisterScreen() {
                             <Image source={require("../../assets/icon.png")} />
                             <Image source={require("../../assets/Title.png")} />
                         </View>
+                        <Formik
+                            initialValues={{ username: '', email: '', password: '', confirmPassword: '', fullName: '' }}
+                            validationSchema={RegisterSchema}
+                            onSubmit={handleRegister}  // Passando handleRegister diretamente aqui
+                        >
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => ( 
+                                <>
+                                    <View style={styles.inputsContainer}>
+                                        <Input
+                                            placeholder="username"
+                                            value={values.username}
+                                            onChangeText={handleChange('username')} 
+                                            onBlur={handleBlur('username')} 
+                                            returnKeyType="next"
+                                            ref={usernameRef}
+                                            onSubmitEditing={() => emailRef.current?.focus()}
+                                        />
+                                        {touched.username && errors.username && (
+                                            <Text style={styles.errorText}>{errors.username}</Text> 
+                                        )}
 
-                        <View style={styles.inputsContainer}>
-                            <Input
-                                placeholder="username"
-                                value={username}
-                                onChangeText={setUsername}
-                                returnKeyType="next"
-                                ref={usernameRef}
-                                onSubmitEditing={() => emailRef.current?.focus()}
-                            />
+                                        <Input
+                                            placeholder="email"
+                                            value={values.email}
+                                            onChangeText={handleChange('email')} 
+                                            onBlur={handleBlur('email')} 
+                                            returnKeyType="next"
+                                            ref={emailRef}
+                                            onSubmitEditing={() => passwordRef.current?.focus()}
+                                        />
+                                        {touched.email && errors.email && (
+                                            <Text style={styles.errorText}>{errors.email}</Text> 
+                                        )}
 
-                            <Input
-                                placeholder="email"
-                                value={email}
-                                onChangeText={setEmail}
-                                returnKeyType="next"
-                                ref={emailRef}
-                                onSubmitEditing={() => passwordRef.current?.focus()}
-                            />
+                                        <Input
+                                            placeholder="password"
+                                            value={values.password}
+                                            onChangeText={handleChange('password')} 
+                                            onBlur={handleBlur('password')} 
+                                            returnKeyType="next"
+                                            ref={passwordRef}
+                                            secureTextEntry
+                                            onSubmitEditing={() => confirmPasswordRef.current?.focus()}
+                                        />
+                                        {touched.password && errors.password && (
+                                            <Text style={styles.errorText}>{errors.password}</Text> 
+                                        )}
 
-                            <Input
-                                placeholder="password"
-                                value={password}
-                                onChangeText={setPassword}
-                                returnKeyType="next"
-                                ref={passwordRef}
-                                secureTextEntry
-                                onSubmitEditing={() => confirmPasswordRef.current?.focus()}
-                            />
+                                        <Input
+                                            placeholder="conf password"
+                                            value={values.confirmPassword}
+                                            onChangeText={handleChange('confirmPassword')} 
+                                            onBlur={handleBlur('confirmPassword')} 
+                                            returnKeyType="next"
+                                            ref={confirmPasswordRef}
+                                            secureTextEntry
+                                        />
+                                        {touched.confirmPassword && errors.confirmPassword && (
+                                            <Text style={styles.errorText}>{errors.confirmPassword}</Text> 
+                                        )}
 
-                            <Input
-                                placeholder="conf password"
-                                value={confirmPassword}
-                                onChangeText={setConfirmPassword}
-                                returnKeyType="next"
-                                ref={confirmPasswordRef}
-                                secureTextEntry
-                            />
+                                        <Input
+                                            placeholder="full name"
+                                            value={values.fullName}
+                                            onChangeText={handleChange('fullName')} 
+                                            onBlur={handleBlur('fullName')} 
+                                            ref={fullNameRef}
+                                            returnKeyType="done"
+                                        />
+                                        {touched.fullName && errors.fullName && (
+                                            <Text style={styles.errorText}>{errors.fullName}</Text> 
+                                        )}
+                                    </View>
 
-                            <Input
-                                placeholder="full name"
-                                value={fullName}
-                                onChangeText={setFullName}
-                                ref={fullNameRef}
-                                returnKeyType="done"
-                            />
-                        </View>
-
-                        <View style={styles.optionalsContainer}>
-                            <Button
-                                title="Registrar"
-                                className="moveForward"
-                                style={styles.button}
-                                onPress={handleRegister}
-                            />
-                            <Button
-                                title="Cancelar"
-                                className="stepBack"
-                                style={styles.button}
-                                onPress={() => navigation.navigate('Login')}
-                            />
-                        </View>
+                                    <View style={styles.optionalsContainer}>
+                                        <Button
+                                            title="Registrar"
+                                            className="moveForward"
+                                            style={styles.button}
+                                            onPress={handleSubmit as any}
+                                        />
+                                        <Button
+                                            title="Cancelar"
+                                            className="stepBack"
+                                            style={styles.button}
+                                            onPress={() => navigation.navigate('Login')}
+                                        />
+                                    </View>
+                                </>
+                            )}
+                        </Formik>
                     </View>
                 </ScrollView>
             </KeyboardAvoidingView>
