@@ -35,6 +35,10 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-end",
         paddingTop: '15%'
     },
+    errorText : {
+        fontSize: 14,
+        color: '#0353A4'
+    },
     keepLoginContainer: {
         width: '100%',
         alignItems: 'center',               

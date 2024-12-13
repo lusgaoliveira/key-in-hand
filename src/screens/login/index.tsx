@@ -19,29 +19,29 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RoutesParams } from "../../navigation/routeParams";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../contexts/AuthContext";
+import { Formik } from "formik";
+import LoginSchema from "../../validators/login";
 
 type loginParamsList = NativeStackNavigationProp<RoutesParams, "Login">;
 
 export default function LoginScreen() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [isChecked, setChecked] = useState(false);
+    
 
     const usernameRef = useRef<TextInput>(null);
     const passwordRef = useRef<TextInput>(null);
 
-    const { login, isAuthenticated } = useAuth();
+    const { login, isAuthenticated, keepConnected } = useAuth();
     const navigation = useNavigation<loginParamsList>();
 
+    useEffect(() => {
+        if (isAuthenticated && keepConnected) {
+            navigation.navigate('Home');
+        }
+    }, [isAuthenticated, keepConnected, navigation]);
 
-    const handleLogin = async () => {
+    const handleLogin = async (value : { username : string, password : string, keepConnected: boolean }) => {
         try {
-            await login({ username, password, keepConnected: isChecked });
-            if (isAuthenticated) {
-                navigation.navigate('Home');
-            } else {
-                console.log('User not authenticated.');
-            }
+            await login(value);
         } catch (error) {
             console.error('Login error:', error);
             Alert.alert('Error when logging in');
@@ -49,11 +49,7 @@ export default function LoginScreen() {
     };
     
 
-    useEffect(() => {
-        if (usernameRef.current) {
-            usernameRef.current.focus();
-        }
-    }, []);
+    
 
     return (
         <SafeAreaView style={styles.safeArea}>
@@ -78,48 +74,70 @@ export default function LoginScreen() {
                                 source={require("../../assets/Title.png")}
                             />
                         </View>
-                        <View style={styles.inputsContainer}>
-                            <Input
-                                placeholder='username'
-                                value={username}
-                                onChangeText={setUsername}
-                                returnKeyType="next"
-                                ref={usernameRef}
-                                onSubmitEditing={() => passwordRef.current?.focus()}
-                            />
-                            <Input
-                                placeholder='password'
-                                secureTextEntry
-                                value={password}
-                                onChangeText={setPassword}
-                                ref={passwordRef}
-                                returnKeyType="done"
-                            />
-                        </View>
-                        <View style={styles.keepLoginContainer}>
-                            <View style={styles.keepLoginContent}>
-                                <Checkbox style={styles.checkbox} value={isChecked} onValueChange={setChecked} />
-                                <Text style={styles.keepText}>Keep me logged in</Text>
-                            </View>
-                            
-                        </View>
-                        
-                        <View style={styles.accountExistsContainter}>
-                            <Button
-                                title="Login"
-                                className="moveForward"
-                                style={styles.button}
-                                onPress={handleLogin}
-                            />
+                        <Formik
+                            initialValues={{ username: '', password: '', keepConnected: false }}
+                            validationSchema={LoginSchema}
+                            onSubmit={(values) => handleLogin(values)}
+                        >
+                            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, setFieldValue }) => (
+                                <>
+                                    <View style={styles.inputsContainer}>
+                                        <Input
+                                            placeholder="username"
+                                            value={values.username} 
+                                            onChangeText={handleChange('username')} 
+                                            onBlur={handleBlur('username')} 
+                                            returnKeyType="next"
+                                            ref={usernameRef}
+                                            onSubmitEditing={() => passwordRef.current?.focus()}
+                                        />
+                                        {touched.username && errors.username && (
+                                            <Text style={styles.errorText}>{errors.username}</Text> 
+                                        )}
 
-                            <TextButton
-                                title="Forgot password"
-                                style={styles.textButton}
-                                onPress={() => {
-                                    navigation.navigate("ResetPassword");
-                                }}
-                            />
-                        </View>
+                                        <Input
+                                            placeholder="password"
+                                            secureTextEntry
+                                            value={values.password} 
+                                            onChangeText={handleChange('password')} 
+                                            onBlur={handleBlur('password')} 
+                                            ref={passwordRef}
+                                            returnKeyType="done"
+                                        />
+                                        {touched.password && errors.password && (
+                                            <Text style={styles.errorText}>{errors.password}</Text> 
+                                        )}
+                                    </View>
+
+                                    <View style={styles.keepLoginContainer}>
+                                        <View style={styles.keepLoginContent}>
+                                        <Checkbox
+                                            style={styles.checkbox}
+                                            value={values.keepConnected} 
+                                            onValueChange={(checked) => setFieldValue('keepConnected', checked)}
+                                        />
+                                            <Text style={styles.keepText}>Keep me logged in</Text>
+                                        </View>
+                                    </View>
+
+                                    <View style={styles.accountExistsContainter}>
+                                        <Button
+                                            title="Login"
+                                            className="moveForward"
+                                            style={styles.button}
+                                            onPress={handleSubmit as any} 
+                                        />
+                                        <TextButton
+                                            title="Forgot password"
+                                            style={styles.textButton}
+                                            onPress={() => navigation.navigate('ResetPassword')}
+                                        />
+                                    </View>
+                                </>
+                            )}
+                        </Formik>
+
+                        
                         
                         <View style={styles.accountCreateContainer}>
                             <Text style={styles.textAccountCreate}>
