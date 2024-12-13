@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const loadStoredData = async () => {
             const storedUser = await UserStorage.getUser('user');
-            const storedKeepConnected = await KeyStorage.getKey('keepConnected');
+            const storedKeepConnected = await AsyncStorage.getItem('@key-in-hand-keepConnected');
 
             if (storedUser) {
                 setUser(storedUser);
@@ -62,7 +62,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
 
             if (storedKeepConnected) {
-                setKeepConnected(storedKeepConnected === true);
+                setKeepConnected(JSON.parse(storedKeepConnected));
             }
         };
 
@@ -72,7 +72,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const login = async ({ username, password, keepConnected }: loginType) => {
         try {
             const storedUser = await UserStorage.getUser(username);
-
             if (storedUser && storedUser.password === password) {
                 setUser(storedUser);
                 setIsAuthenticated(true);
@@ -91,7 +90,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         try {
             const newUser = { fullName, username, password, email };
             await UserStorage.saveUser(username, newUser);
-            setIsFirstAccess(false);
+            setIsFirstAccess(true);
             Alert.alert('User successfully registered!');
         } catch {
             Alert.alert('Unable to register!');
