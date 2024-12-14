@@ -49,8 +49,6 @@ export default function LoginScreen() {
     };
     
 
-    
-
     return (
         <SafeAreaView style={styles.safeArea}>
             <KeyboardAvoidingView
