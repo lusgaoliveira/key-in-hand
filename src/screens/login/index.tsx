@@ -20,7 +20,7 @@ import { RoutesParams } from "../../navigation/routeParams";
 import { useNavigation } from "@react-navigation/native";
 import { useAuth } from "../../contexts/AuthContext";
 import { Formik } from "formik";
-import LoginSchema from "../../validators/login";
+import LoginSchema from "../../utils/validators/login";
 
 type loginParamsList = NativeStackNavigationProp<RoutesParams, "Login">;
 
@@ -47,8 +47,6 @@ export default function LoginScreen() {
             Alert.alert('Error when logging in');
         }
     };
-    
-
     
 
     return (

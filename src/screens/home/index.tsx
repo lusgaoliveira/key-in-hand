@@ -6,7 +6,7 @@ import styles from "./styles";
 import IconButton from "../../components/buttons/iconButton";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import SimpleInput from "../../components/inputs/simpleInput";
-import { KeyStorage } from "../../storages/KeyStorage";
+import { KeyStorage } from "../../utils/storages/KeyStorage";
 import Card from "../../components/cards/card";
 import { useAuth } from "../../contexts/AuthContext";
 
