@@ -19,6 +19,8 @@ import Button from "../../components/buttons/button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
 import RegisterSchema from "../../utils/validators/register";
+import { Encryption } from "../../utils/crypto/Encryption";
+import { UserStorage } from "../../utils/storages/UserStorage";
 
 type registerParamsList = NativeStackNavigationProp<RoutesParams, "Register">;
 
@@ -39,19 +41,18 @@ export default function RegisterScreen() {
         }
     }, []);
 
-    // Atualize handleRegister para receber diretamente os valores do Formik
     const handleRegister = async (values: {username: string, email: string, password: string, fullName: string}) => {
         try {
-            await register(values); // Registra o usuário
-            await login({
-                username: values.username,
-                password: values.password,
-                keepConnected: false,
-            });
-            console.log('username: ', values.username, 'password: ', values.password);
-            navigation.navigate('Home');
-        } catch {
-            Alert.alert('Unable to register');
+            
+            const newUser = { username: values.username, email: values.email, 
+                                password: values.password,  fullName: values.fullName
+            };
+            await register(newUser);
+            Alert.alert('User successfully registered!');
+            await login({ username: values.username, password: values.password, keepConnected: false });
+        } catch (error) {
+            console.error('Error on register:', error);
+            Alert.alert('Unable to register!');
         }
     };
 
@@ -75,7 +76,7 @@ export default function RegisterScreen() {
                         <Formik
                             initialValues={{ username: '', email: '', password: '', confirmPassword: '', fullName: '' }}
                             validationSchema={RegisterSchema}
-                            onSubmit={handleRegister}  // Passando handleRegister diretamente aqui
+                            onSubmit={handleRegister}  
                         >
                             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => ( 
                                 <>
