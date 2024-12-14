@@ -22,6 +22,10 @@ type loginType = {
     keepConnected: boolean,
 }
 
+type resetPasswordType = {
+    username: string,
+    email : string,
+}
 type AuthContextType = {
     isAuthenticated: boolean,
     isFirstAccess: boolean,
@@ -29,7 +33,7 @@ type AuthContextType = {
     user: userType,
     login: (data: loginType) => Promise<void>,
     register: (data: userType) => Promise<void>,
-    forgotPassword: (username: string, password: string) => Promise<void>,
+    forgotPassword: (data: resetPasswordType) => Promise<void>,
     logout: () => Promise<void>,
 };
 
@@ -97,17 +101,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const register = async ({ username, password, email, fullName }: userType) => {
         try {
             const existingUser = await AsyncStorage.getItem(username);
-            if (existingUser) {
+            if (!existingUser) {
+                const encryptedPassword = await Encryption.hashPassword(password);  
+                const newUser = { username, fullName, password: encryptedPassword, email };
+                await UserStorage.saveUser(username, newUser);  
+                Alert.alert('User successfully registered!');
+            } else {
                 Alert.alert('Registration Failed', 'Username is already taken.');
-                return;
             }
     
-            const encryptedPassword = await Encryption.hashPassword(password);  
-    
-            const newUser = { username, fullName, password: encryptedPassword, email };
-        
-            await UserStorage.saveUser(username, newUser);  
-            Alert.alert('User successfully registered!');
         } catch (error) {
             console.error('Error on register:', error);
             Alert.alert('Unable to register!');
@@ -115,13 +117,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
     
     
-    const forgotPassword = async (username: string, newPassword: string) => {
+    const forgotPassword = async ({ username, email } : resetPasswordType) => {
         try {
-            const storedUser = await UserStorage.getUser(username);
+            const storedUser = await UserStorage.getUser(username); 
             if (storedUser) {
-                storedUser.password = newPassword;
-                await UserStorage.saveUser(username, storedUser);
-                Alert.alert('Password changed successfully');
+                if(storedUser.email === email) {
+                    const generateRandomPassword = () => {
+                        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                        let password = '';
+                        for (let i = 0; i < 8; i++) {  
+                            const randomIndex = Math.floor(Math.random() * characters.length);
+                            password += characters[randomIndex];
+                        }
+                        return password;
+                    };
+
+                    const newPassword = generateRandomPassword();
+                    const encryptedPassword = await Encryption.hashPassword(newPassword);
+                    storedUser.password = encryptedPassword;
+                    
+                    await UserStorage.saveUser(username, storedUser);
+                    Alert.alert(`Password changed successfully. New password: ${newPassword}`);
+
+                } else {
+                    Alert.alert('E-mail is wrong.')
+                }
             } else {
                 Alert.alert('User not found');
             }

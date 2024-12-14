@@ -19,8 +19,7 @@ import Button from "../../components/buttons/button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
 import RegisterSchema from "../../utils/validators/register";
-import { Encryption } from "../../utils/crypto/Encryption";
-import { UserStorage } from "../../utils/storages/UserStorage";
+
 
 type registerParamsList = NativeStackNavigationProp<RoutesParams, "Register">;
 
@@ -149,13 +148,13 @@ export default function RegisterScreen() {
 
                                     <View style={styles.optionalsContainer}>
                                         <Button
-                                            title="Registrar"
+                                            title="Register"
                                             className="moveForward"
                                             style={styles.button}
                                             onPress={handleSubmit as any}
                                         />
                                         <Button
-                                            title="Cancelar"
+                                            title="Cancel"
                                             className="stepBack"
                                             style={styles.button}
                                             onPress={() => navigation.navigate('Login')}

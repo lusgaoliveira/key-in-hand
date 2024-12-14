@@ -29,6 +29,10 @@ export const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
     },
+    errorText : {
+        fontSize: 14,
+        color: '#0353A4'
+    },
     optionalsContainer: {
         width: '100%',
         alignItems: 'center',
