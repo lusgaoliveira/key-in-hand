@@ -19,8 +19,7 @@ import Button from "../../components/buttons/button";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Formik } from "formik";
 import RegisterSchema from "../../utils/validators/register";
-import { Encryption } from "../../utils/crypto/Encryption";
-import { UserStorage } from "../../utils/storages/UserStorage";
+
 
 type registerParamsList = NativeStackNavigationProp<RoutesParams, "Register">;
 
