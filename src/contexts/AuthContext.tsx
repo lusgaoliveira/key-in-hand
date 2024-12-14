@@ -7,7 +7,7 @@ import {
 import { Alert } from 'react-native';
 import { UserStorage } from "../utils/storages/UserStorage";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import { Encryption } from "../utils/crypto/Encryption";
 
 type userType = {
     username: string,
@@ -71,31 +71,50 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const login = async ({ username, password, keepConnected }: loginType) => {
         try {
             const storedUser = await UserStorage.getUser(username);
-            if (storedUser && storedUser.password === password) {
-                setUser(storedUser);
-                setIsAuthenticated(true);
-                setKeepConnected(keepConnected);
-
-                await AsyncStorage.setItem('@key-in-hand-keepConnected', JSON.stringify(keepConnected));
+    
+            if (storedUser) {
+                const isValid = await Encryption.validatePassword(storedUser.password, password);
+                
+                if (isValid) {
+                    setUser(storedUser);
+                    setIsAuthenticated(true);
+                    setKeepConnected(keepConnected);
+    
+                    await AsyncStorage.setItem('@key-in-hand-keepConnected', JSON.stringify(keepConnected));
+                } else {
+                    Alert.alert('Login', 'Invalid username or password.');
+                }
             } else {
-                Alert.alert('Login', 'Usuário ou senha inválidos.');
+                Alert.alert('Login', 'User not found.');
             }
-        } catch {
-            Alert.alert('Erro', 'Não foi possível realizar o login.');
+        } catch (error) {
+            console.error('Error on login:', error);
+            Alert.alert('Error', 'Unable to login.');
         }
     };
+    
 
     const register = async ({ username, password, email, fullName }: userType) => {
         try {
-            const newUser = { fullName, username, password, email };
-            await UserStorage.saveUser(username, newUser);
-            setIsFirstAccess(true);
+            const existingUser = await AsyncStorage.getItem(username);
+            if (existingUser) {
+                Alert.alert('Registration Failed', 'Username is already taken.');
+                return;
+            }
+    
+            const encryptedPassword = await Encryption.hashPassword(password);  
+    
+            const newUser = { username, fullName, password: encryptedPassword, email };
+        
+            await UserStorage.saveUser(username, newUser);  
             Alert.alert('User successfully registered!');
-        } catch {
+        } catch (error) {
+            console.error('Error on register:', error);
             Alert.alert('Unable to register!');
         }
     };
-
+    
+    
     const forgotPassword = async (username: string, newPassword: string) => {
         try {
             const storedUser = await UserStorage.getUser(username);
@@ -114,9 +133,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const logout = async () => {
         setUser({ username: '', password: '', email: '', fullName: '' });
         setIsAuthenticated(false);
-        setKeepConnected(false);
-        await AsyncStorage.setItem('@key-in-hand-keepConnected', JSON.stringify(keepConnected));
+        setKeepConnected(false);  
+        await AsyncStorage.removeItem('@key-in-hand-keepConnected'); 
     };
+   
 
     return (
         <AuthContext.Provider
