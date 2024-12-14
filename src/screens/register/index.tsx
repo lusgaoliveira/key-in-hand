@@ -149,13 +149,13 @@ export default function RegisterScreen() {
 
                                     <View style={styles.optionalsContainer}>
                                         <Button
-                                            title="Registrar"
+                                            title="Register"
                                             className="moveForward"
                                             style={styles.button}
                                             onPress={handleSubmit as any}
                                         />
                                         <Button
-                                            title="Cancelar"
+                                            title="Cancel"
                                             className="stepBack"
                                             style={styles.button}
                                             onPress={() => navigation.navigate('Login')}
