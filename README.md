@@ -15,7 +15,7 @@ O **key-in-hand** é um aplicativo que possibilita ao usuário gerenciar e prese
   - babel
   - typescript
 ## Intalação e execução
-para instalar o **key-in-hand** será necessário seguir esses passos:
+Para instalar o **key-in-hand** será necessário seguir esses passos:
 ### Pré-Requisitos
   - node (recomendação versão 14 ou superior)
   - Expo CLI
